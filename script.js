@@ -191,6 +191,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let rsvpSubmitted = false;
 
     if (rsvpForm) {
+        const attendanceSelect = rsvpForm.querySelector('select[name="attendance"]');
+        const guestCountInput = rsvpForm.querySelector('input[name="guestCount"]');
+
+        // Toggle guest count requirement based on attendance selection
+        if (attendanceSelect && guestCountInput) {
+            attendanceSelect.addEventListener('change', (e) => {
+                if (e.target.value === "No - Not Attending") {
+                    guestCountInput.required = false;
+                    guestCountInput.value = ""; // Clear any entered number
+                    guestCountInput.disabled = true; // Optional: visually disable it
+                } else {
+                    guestCountInput.required = true;
+                    guestCountInput.disabled = false;
+                }
+            });
+        }
+
         rsvpForm.addEventListener('submit', () => {
             rsvpSubmitted = true;
 
