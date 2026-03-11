@@ -191,16 +191,61 @@ document.addEventListener('DOMContentLoaded', () => {
     if (rsvpForm) {
         rsvpForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            // Mock submission
+
             const btn = rsvpForm.querySelector('button');
             const originalText = btn.innerText;
-            btn.innerText = "RSVP Sent! Thank You.";
-            btn.style.backgroundColor = "var(--color-gold)";
+            btn.innerText = "Sending RSVP...";
+            btn.disabled = true;
 
-            setTimeout(() => {
-                btn.innerText = originalText;
-                rsvpForm.reset();
-            }, 4000);
+            // The deployed Google Apps Script Web App URL
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsWVjofpWxZIIx3MP82eSSEIi-4Q3X_Czm1O4j0xqNTUfJbO3fSgXl6prD-Y4no3ZEgQ/exec";
+
+            // If user hasn't replaced the URL yet, just simulate success to avoid breaking
+            if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE") {
+                console.warn("⚠️ Please update the GOOGLE_SCRIPT_URL in script.js with your Google Apps Script URL!");
+                btn.innerText = "RSVP Sent! (Simulated)";
+                btn.style.backgroundColor = "var(--color-gold)";
+
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    rsvpForm.reset();
+                }, 4000);
+                return;
+            }
+
+            // Create FormData from the form
+            // Apps Script correctly parses the `name` attributes (guestName, attendance, guestCount)
+            const formData = new FormData(rsvpForm);
+
+            // Send Ajax request to Google Script API
+            // 'no-cors' mode tells the browser to fire and forget without waiting for access control headers
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST",
+                mode: "no-cors",
+                body: formData
+            })
+                .then(async (response) => {
+                    btn.innerText = "RSVP Sent! Thank You.";
+                    btn.style.backgroundColor = "var(--color-gold)";
+
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        rsvpForm.reset();
+                    }, 4000);
+                })
+                .catch(error => {
+                    console.error('Network Error!', error);
+                    btn.innerText = "Error. Please try again.";
+                    btn.style.backgroundColor = "#e09b9b";
+
+                    setTimeout(() => {
+                        btn.innerText = originalText;
+                        btn.disabled = false;
+                        btn.style.backgroundColor = "var(--color-gold)";
+                    }, 4000);
+                });
         });
     }
 

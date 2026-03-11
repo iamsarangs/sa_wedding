@@ -25,14 +25,14 @@
     <!-- SPLASH SCREEN -->
     <div id="splash-screen">
         <div class="splash-content">
-            <h2 class="splash-names">Sarang <span class="ampersand">&</span> Aiswarya</h2>
-
-            <div class="splash-image-container">
-                <img src="couple.png" alt="Sarang and Aiswarya" class="splash-image" />
+            <div class="splash-center">
+                <h2 class="splash-names">Sarang <span class="ampersand">&</span> Aiswarya</h2>
+                <p class="splash-text">You are invited to our wedding celebration</p>
             </div>
 
-            <p class="splash-text">You are invited to our wedding celebration</p>
-            <button id="btn-open-invite" class="btn-primary-splash">Open Invitation</button>
+            <div class="splash-bottom">
+                <button id="btn-open-invite" class="btn-primary-splash">Open Invitation</button>
+            </div>
         </div>
     </div>
 
@@ -192,17 +192,18 @@
             <div class="rsvp-form-container">
                 <form id="rsvp-form">
                     <div class="form-group mb-4">
-                        <input type="text" class="form-input" placeholder="Full Name" required>
+                        <input type="text" name="guestName" class="form-input" placeholder="Full Name" required>
                     </div>
                     <div class="form-group mb-4">
-                        <select class="form-select" required>
+                        <select name="attendance" class="form-select" required>
                             <option value="">Will you be attending?</option>
-                            <option value="yes">Joyfully Accept</option>
-                            <option value="no">Regretfully Decline</option>
+                            <option value="Yes - Attending">Joyfully Accept</option>
+                            <option value="No - Not Attending">Regretfully Decline</option>
                         </select>
                     </div>
                     <div class="form-group mb-4">
-                        <input type="number" class="form-input" placeholder="Number of Guests" min="1" max="10">
+                        <input type="number" name="guestCount" class="form-input" placeholder="Number of Guests" min="1"
+                            max="10" required>
                     </div>
                     <button type="submit" class="btn-primary w-full">Send RSVP</button>
                 </form>
