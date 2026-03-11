@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.disabled = true;
 
             // The deployed Google Apps Script Web App URL
-            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxsWVjofpWxZIIx3MP82eSSEIi-4Q3X_Czm1O4j0xqNTUfJbO3fSgXl6prD-Y4no3ZEgQ/exec";
+            const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxcAuMBQFbY_u8mHMY8DrVq8DtIZ-a3VRqfbJ9uG_nK1IVgBYhP5jtIuvk1wFtzZB8kZA/exec";
 
             // If user hasn't replaced the URL yet, just simulate success to avoid breaking
             if (GOOGLE_SCRIPT_URL === "YOUR_GOOGLE_SCRIPT_WEB_APP_URL_HERE") {
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Create FormData from the form
-            // Apps Script correctly parses the `name` attributes (guestName, attendance, guestCount)
+            // Apps Script correctly parses standard multipart form data via e.parameter
             const formData = new FormData(rsvpForm);
 
             // Send Ajax request to Google Script API
