@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarang & Aiswarya - Wedding Invitation</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&family=Pinyon+Script&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- SPLASH SCREEN -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <h2 class="splash-text">You are invited to the wedding of <br> Sarang &amp; Aiswarya</h2>
+            <button id="btn-open-invite" class="btn-primary-splash">Open Invitation</button>
+        </div>
+    </div>
+
+    <!-- AUDIO & CONTROLS -->
+    <!-- YouTube Background Music (Loaded via API) -->
+    <div id="youtube-audio" style="display: none;"></div>
+    <button id="music-toggle" class="floating-btn">
+        <i class="fa-solid fa-volume-xmark"></i>
+    </button>
+
+    <!-- PETALS CONTAINER -->
+    <div id="petal-container"></div>
+
+    <!-- HERO SECTION -->
+    <header class="hero-section" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content fade-up">
+            <p class="hero-subtitle">Together with their families</p>
+            <h1 class="hero-title">Sarang <span class="ampersand">&</span> Aiswarya</h1>
+            <p class="hero-date">Request the honor of your presence</p>
+            <div class="scroll-indicator">
+                <p>Scroll</p>
+                <div class="mouse">
+                    <div class="wheel"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Decorative subtle floral vectors could be placed via CSS backgrounds -->
+    </header>
+
+    <!-- THE COUPLE SECTION -->
+    <section class="section couple-section" id="couple">
+        <div class="container fade-up scroll-element">
+            <h2 class="section-title">The Couple</h2>
+            <div class="flower-divider">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+            <p class="section-text">
+                Two souls, one heart. We are embarking on a beautiful journey together and would be absolutely delighted
+                to share the beginning of our forever with our cherished friends and family.
+            </p>
+            <div class="couple-names">
+                <div class="name-block">
+                    <h3>Sarang</h3>
+                </div>
+                <div class="heart-icon"><i class="fa-solid fa-heart"></i></div>
+                <div class="name-block">
+                    <h3>Aiswarya</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVENTS SECTION -->
+    <section class="section events-section bg-blush" id="events">
+        <div class="container fade-up scroll-element">
+            <h2 class="section-title">Wedding Events</h2>
+            <div class="flower-divider">
+                <i class="fa-solid fa-spa"></i>
+            </div>
+
+            <div class="events-grid">
+                <!-- Ceremony Card -->
+                <div class="event-card">
+                    <div class="card-inner">
+                        <i class="fa-solid fa-rings-wedding event-icon text-gold"></i>
+                        <h3>The Ceremony</h3>
+                        <p class="event-date">Sunday, 26 April 2026</p>
+                        <p class="event-time">12:00 PM – 12:45 PM</p>
+                        <hr class="card-divider">
+                        <p class="event-venue">Bride's House</p>
+                        <p class="event-address text-muted">A private gathering for the sacred rituals.</p>
+                    </div>
+                </div>
+
+                <!-- Reception Card (Highlighted) -->
+                <div class="event-card highlighted">
+                    <div class="card-inner">
+                        <span class="badge">You are Invited!</span>
+                        <i class="fa-solid fa-champagne-glasses event-icon text-gold"></i>
+                        <h3>The Reception</h3>
+                        <p class="event-date">Monday, 27 April 2026</p>
+                        <p class="event-time">5:00 PM – 10:00 PM</p>
+                        <hr class="card-divider">
+                        <p class="event-venue">Athafi Auditorium</p>
+                        <p class="event-address text-muted">Vellikulangara</p>
+                        <a href="#map" class="btn-outline mt-4">View Map</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COUNTDOWN SECTION -->
+    <section class="section countdown-section" id="countdown">
+        <div class="container fade-up scroll-element">
+            <h2 class="section-title">The Countdown</h2>
+            <p class="section-text mb-6">We can't wait to celebrate the Reception with you!</p>
+
+            <div class="timer-container">
+                <div class="time-box">
+                    <span id="days">00</span>
+                    <p>Days</p>
+                </div>
+                <div class="time-box">
+                    <span id="hours">00</span>
+                    <p>Hours</p>
+                </div>
+                <div class="time-box">
+                    <span id="minutes">00</span>
+                    <p>Mins</p>
+                </div>
+                <div class="time-box">
+                    <span id="seconds">00</span>
+                    <p>Secs</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VENUE & MAP SECTION -->
+    <section class="section map-section bg-blush" id="map">
+        <div class="container fade-up scroll-element">
+            <h2 class="section-title">Getting There</h2>
+            <div class="flower-divider">
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <p class="section-text mb-6">
+                Join us for an evening of joy, dining, and celebration at <strong>Athafi Auditorium</strong>.
+            </p>
+
+            <div class="map-container">
+                <!-- Generic Google Maps Embed for the Area -->
+                <iframe
+                    src="https://maps.google.com/maps?q=Athafi+Auditorium,+Vellikulangara,+Kerala&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                    width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <div class="mt-4">
+                <a href="https://maps.app.goo.gl/BEdThFhQB6PkTDFo8" target="_blank" class="btn-primary mt-4">
+                    <i class="fa-solid fa-location-arrow"></i> Open in Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP SECTION -->
+    <section class="section rsvp-section" id="rsvp">
+        <div class="container fade-up scroll-element">
+            <h2 class="section-title">RSVP</h2>
+            <div class="flower-divider">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </div>
+            <p class="section-text mb-6">We would love to know if you can join us for the Reception.</p>
+
+            <div class="rsvp-form-container">
+                <form id="rsvp-form">
+                    <div class="form-group mb-4">
+                        <input type="text" class="form-input" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <select class="form-select" required>
+                            <option value="">Will you be attending?</option>
+                            <option value="yes">Joyfully Accept</option>
+                            <option value="no">Regretfully Decline</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-4">
+                        <input type="number" class="form-input" placeholder="Number of Guests" min="1" max="10">
+                    </div>
+                    <button type="submit" class="btn-primary w-full">Send RSVP</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="container">
+            <h2 class="footer-title">Sarang & Aiswarya</h2>
+            <p class="footer-text">#SarangWedsAiswarya</p>
+            <p class="footer-date">27 • 04 • 2026</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+
+</html>
