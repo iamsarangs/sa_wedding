@@ -190,7 +190,12 @@
             <p class="section-text mb-6">We would love to know if you can join us for the Reception.</p>
 
             <div class="rsvp-form-container">
-                <form id="rsvp-form">
+                <!-- Hidden iframe to capture the cross-origin Google redirect without leaving the page -->
+                <iframe name="hiddenConfirm" id="hiddenConfirm" style="display:none;"></iframe>
+
+                <form id="rsvp-form"
+                    action="https://script.google.com/macros/s/AKfycbxcAuMBQFbY_u8mHMY8DrVq8DtIZ-a3VRqfbJ9uG_nK1IVgBYhP5jtIuvk1wFtzZB8kZA/exec"
+                    method="POST" target="hiddenConfirm">
                     <div class="form-group mb-4">
                         <input type="text" name="guestName" class="form-input" placeholder="Full Name" required>
                     </div>
