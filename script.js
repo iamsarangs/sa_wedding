@@ -113,37 +113,45 @@ document.addEventListener('DOMContentLoaded', () => {
             btnOpenInvite.style.opacity = '0';
             btnOpenInvite.style.transform = 'translateZ(100px)';
 
-            // Trigger Parallax Drift
-            const scene3d = document.getElementById('scene-3d');
-            if (scene3d) scene3d.classList.add('animate-camera');
-
-            // Generate Intro Particles
-            const introParticlesLayer = document.getElementById('intro-particles');
-            if (introParticlesLayer) {
-                for(let i=0; i<30; i++) {
-                    let p = document.createElement('div');
-                    p.className = 'intro-particle';
-                    p.style.left = Math.random() * 100 + '%';
-                    p.style.top = Math.random() * 100 + '%';
-                    let size = Math.random() * 5 + 2;
-                    p.style.width = size + 'px';
-                    p.style.height = size + 'px';
-                    p.style.opacity = Math.random() * 0.5 + 0.2;
-                    introParticlesLayer.appendChild(p);
-                }
-            }
-
-            // Start Audio
-            fadeInAudio();
-
-            const text1 = document.getElementById('cinematic-text-1');
-            const text2 = document.getElementById('cinematic-text-2');
-            const text3 = document.getElementById('cinematic-text-3');
-
-            // Wait a moment for button to fade out, then start sequence exactly at 0s
+            // Wait exactly 1 second for silent black screen pause
             setTimeout(() => {
                 btnOpenInvite.style.display = 'none';
                 
+                // --- T = 0s ---
+                // Start Audio
+                fadeInAudio();
+                
+                // Start center glow
+                const centerGlow = document.getElementById('center-glow');
+                if (centerGlow) centerGlow.classList.add('active');
+
+                // Trigger Parallax Drift
+                const scene3d = document.getElementById('scene-3d');
+                if (scene3d) scene3d.classList.add('animate-camera');
+
+                // Generate Intro Particles (Dust)
+                const introParticlesLayer = document.getElementById('intro-particles');
+                if (introParticlesLayer) {
+                    for(let i=0; i<40; i++) {
+                        let p = document.createElement('div');
+                        p.className = 'intro-particle';
+                        p.style.left = Math.random() * 100 + '%';
+                        p.style.top = Math.random() * 100 + '%';
+                        let size = Math.random() * 4 + 1;
+                        p.style.width = size + 'px';
+                        p.style.height = size + 'px';
+                        p.style.opacity = Math.random() * 0.4 + 0.1;
+                        introParticlesLayer.appendChild(p);
+                    }
+                }
+
+                // Start petals with depth
+                startPetals();
+
+                const text1 = document.getElementById('cinematic-text-1');
+                const text2 = document.getElementById('cinematic-text-2');
+                const text3 = document.getElementById('cinematic-text-3');
+
                 // Step 1: 0s - 2s (Fade in 'You are invited...')
                 text1.classList.remove('hidden');
                 requestAnimationFrame(() => requestAnimationFrame(() => text1.classList.add('active')));
@@ -156,7 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     text2.classList.remove('hidden');
                     requestAnimationFrame(() => requestAnimationFrame(() => text2.classList.add('active')));
                     
-                    // Step 3: 4s - 7s
+                    // Step 3: 4s - 8s (Hold name reveal)
                     setTimeout(() => {
                         text2.classList.remove('active');
                         text2.classList.add('fade-out');
@@ -164,28 +172,24 @@ document.addEventListener('DOMContentLoaded', () => {
                         text3.classList.remove('hidden');
                         requestAnimationFrame(() => requestAnimationFrame(() => text3.classList.add('active')));
                         
-                        // Step 4: 7s - 9s (Fade out intro screen)
+                        // Step 4: 8s - 10.5s (Dissolve intro screen slowly)
                         setTimeout(() => {
-                            text3.classList.remove('active');
-                            text3.classList.add('fade-out');
+                            splashScreen.classList.add('fade-out-blur');
                             
-                            splashScreen.classList.add('hidden');
-                            
-                            // Step 5: 9s (Reveal main site completely)
+                            // Step 5: 10.5s (Reveal main site completely)
                             setTimeout(() => {
                                 document.body.style.overflow = ''; 
                                 splashScreen.style.display = 'none';
-                                startPetals();
                                 window.dispatchEvent(new Event('scroll'));
-                            }, 2000);
+                            }, 2500);
                             
-                        }, 3000); // 7s (3s after Step 3 start)
+                        }, 4000); // Wait 4s on the name reveal
                         
                     }, 2000); // 4s (2s after Step 2 start)
                     
-                }, 2000); // 2s
+                }, 2000); // 2s mark
                 
-            }, 500); // Sequence offset
+            }, 1000); // 1s initial pause offset
         });
     }
 
@@ -218,14 +222,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const petal = document.createElement('div');
             petal.classList.add('petal');
 
-            // Randomize size, position, and duration
-            const size = Math.random() * 8 + 8; // 8px to 16px
+            // Randomize size, position, depth, and duration
+            const isFront = Math.random() > 0.7; // 30% chance to be foreground
+            const size = isFront ? (Math.random() * 12 + 16) : (Math.random() * 8 + 8); 
             petal.style.width = `${size}px`;
             petal.style.height = `${size}px`;
 
+            if (isFront) {
+                petal.classList.add('front');
+            } else {
+                petal.classList.add('mid');
+            }
+
             // Randomly position across the entire viewport width
             petal.style.left = `${Math.random() * 100}vw`;
-            const duration = Math.random() * 5 + 7; // 7s to 12s
+            const duration = isFront ? (Math.random() * 4 + 6) : (Math.random() * 6 + 8);
             petal.style.animationDuration = `${duration}s`;
 
             petalContainer.appendChild(petal);
@@ -236,8 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }, duration * 1000);
         }
 
-        // Create a new petal every 400ms
-        setInterval(createPetal, 400);
+        // Create a new petal every 350ms
+        setInterval(createPetal, 350);
     }
 
     // --- 5. RSVP FORM SUBMISSION (Hidden IFrame Method) ---
