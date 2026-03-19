@@ -22,23 +22,34 @@
 
 <body>
 
-    <!-- SPLASH SCREEN -->
-    <div id="splash-screen">
-        <div class="splash-content">
-            <div class="splash-center">
-                <h2 class="splash-names">Sarang <span class="ampersand">&</span>Aiswarya</h2>
-                <p class="splash-text">You are invited to our wedding celebration</p>
-            </div>
+    <!-- CINEMATIC 3D SPLASH SCREEN -->
+    <div id="splash-screen" class="cinematic-intro">
+        <!-- 3D Perspective Container -->
+        <div class="scene-3d" id="scene-3d">
+            <!-- Background Layer -->
+            <div class="layer bg-layer"></div>
+            <!-- Glow Layer -->
+            <div class="layer glow-layer"></div>
+            <!-- Petals Layer -->
+            <div class="layer particles-layer" id="intro-particles"></div>
 
-            <div class="splash-bottom">
-                <button id="btn-open-invite" class="btn-primary-splash">Open Invitation</button>
+            <!-- Content Layer -->
+            <div class="layer content-layer">
+                <button id="btn-open-invite" class="btn-cinematic">Open Invitation</button>
+                <div class="text-container">
+                    <p id="cinematic-text-1" class="cinematic-text hidden">You are invited...</p>
+                    <p id="cinematic-text-2" class="cinematic-text hidden">To celebrate a beautiful beginning</p>
+                    <h1 id="cinematic-text-3" class="cinematic-title hidden">Sarang <span class="heart">❤️</span>
+                        Aiswarya</h1>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- AUDIO & CONTROLS -->
-    <!-- YouTube Background Music (Loaded via API) -->
-    <div id="youtube-audio" style="display: none;"></div>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
     <button id="music-toggle" class="floating-btn">
         <i class="fa-solid fa-volume-xmark"></i>
     </button>
@@ -103,7 +114,7 @@
                         <p class="event-date">Sunday, 26 April 2026</p>
                         <p class="event-time">12:00 PM – 12:45 PM</p>
                         <hr class="card-divider">
-                        <p class="event-venue">Bride's Residence</p>
+                        <p class="event-venue">Bride's House</p>
                         <p class="event-address text-muted">A private gathering for the sacred rituals.</p>
                     </div>
                 </div>
@@ -221,7 +232,7 @@
         <div class="container">
             <h2 class="footer-title">Sarang & Aiswarya</h2>
             <p class="footer-text">#SarangWedsAiswarya</p>
-            <p class="footer-date">26 • 04 • 2026</p>
+            <p class="footer-date">27 • 04 • 2026</p>
         </div>
     </footer>
 

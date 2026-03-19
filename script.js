@@ -70,82 +70,136 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnOpenInvite = document.getElementById('btn-open-invite');
     const musicToggleBtn = document.getElementById('music-toggle');
     const musicIcon = musicToggleBtn ? musicToggleBtn.querySelector('i') : null;
+    const bgMusic = document.getElementById('bgMusic');
 
     let isMusicPlaying = false;
-    let ytPlayer = null;
-    let isPlayerReady = false;
 
-    // Load YouTube IFrame API
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    const firstScriptTag = document.getElementsByTagName('script')[0];
-    if (firstScriptTag && firstScriptTag.parentNode) {
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-    } else {
-        document.head.appendChild(tag);
-    }
-
-    window.onYouTubeIframeAPIReady = function () {
-        ytPlayer = new YT.Player('youtube-audio', {
-            height: '0',
-            width: '0',
-            videoId: 'vPY_oohGR34',
-            playerVars: {
-                'autoplay': 0,
-                'controls': 0,
-                'loop': 1,
-                'playlist': 'vPY_oohGR34', // Required for loop
-                'origin': window.location.origin
-            },
-            events: {
-                'onReady': onPlayerReady
-            }
-        });
-    };
-
-    function onPlayerReady(event) {
-        isPlayerReady = true;
-    }
-
-    if (btnOpenInvite && splashScreen) {
-        // Prevent scrolling while splash screen is active
-        document.body.style.overflow = 'hidden';
-
-        btnOpenInvite.addEventListener('click', () => {
-            splashScreen.classList.add('hidden');
-            document.body.style.overflow = ''; // Restore scrolling
-
-            // Try to play music automatically when they open invitation
-            if (isPlayerReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
-                ytPlayer.setVolume(50); // Set volume to 50%
-                ytPlayer.playVideo();
+    // Fade in audio function
+    function fadeInAudio() {
+        if (!bgMusic) return;
+        bgMusic.volume = 0;
+        
+        let playPromise = bgMusic.play();
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
                 isMusicPlaying = true;
                 if (musicIcon) {
                     musicIcon.classList.remove('fa-volume-xmark');
                     musicIcon.classList.add('fa-music');
                 }
-            } else {
-                console.log("YouTube player not ready yet when button clicked. Guest may need to click toggle manually.");
+                
+                // Gradually increase volume to 0.5 over 2.5 seconds
+                let vol = 0;
+                let fadeInterval = setInterval(() => {
+                    vol += 0.02;
+                    if (vol >= 0.5) {
+                        vol = 0.5;
+                        clearInterval(fadeInterval);
+                    }
+                    bgMusic.volume = vol;
+                }, 100);
+            }).catch(error => {
+                console.log("Audio playback was prevented:", error);
+            });
+        }
+    }
+
+    if (btnOpenInvite && splashScreen) {
+        document.body.style.overflow = 'hidden';
+
+        btnOpenInvite.addEventListener('click', () => {
+            // Fade out the button instantly
+            btnOpenInvite.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            btnOpenInvite.style.opacity = '0';
+            btnOpenInvite.style.transform = 'translateZ(100px)';
+
+            // Trigger Parallax Drift
+            const scene3d = document.getElementById('scene-3d');
+            if (scene3d) scene3d.classList.add('animate-camera');
+
+            // Generate Intro Particles
+            const introParticlesLayer = document.getElementById('intro-particles');
+            if (introParticlesLayer) {
+                for(let i=0; i<30; i++) {
+                    let p = document.createElement('div');
+                    p.className = 'intro-particle';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.top = Math.random() * 100 + '%';
+                    let size = Math.random() * 5 + 2;
+                    p.style.width = size + 'px';
+                    p.style.height = size + 'px';
+                    p.style.opacity = Math.random() * 0.5 + 0.2;
+                    introParticlesLayer.appendChild(p);
+                }
             }
 
-            // Start petal animation after splash screen finishes fading (1s transition)
-            setTimeout(startPetals, 500);
+            // Start Audio
+            fadeInAudio();
+
+            const text1 = document.getElementById('cinematic-text-1');
+            const text2 = document.getElementById('cinematic-text-2');
+            const text3 = document.getElementById('cinematic-text-3');
+
+            // Wait a moment for button to fade out, then start sequence exactly at 0s
+            setTimeout(() => {
+                btnOpenInvite.style.display = 'none';
+                
+                // Step 1: 0s - 2s (Fade in 'You are invited...')
+                text1.classList.remove('hidden');
+                requestAnimationFrame(() => requestAnimationFrame(() => text1.classList.add('active')));
+                
+                // Step 2: 2s - 4s
+                setTimeout(() => {
+                    text1.classList.remove('active');
+                    text1.classList.add('fade-out');
+                    
+                    text2.classList.remove('hidden');
+                    requestAnimationFrame(() => requestAnimationFrame(() => text2.classList.add('active')));
+                    
+                    // Step 3: 4s - 7s
+                    setTimeout(() => {
+                        text2.classList.remove('active');
+                        text2.classList.add('fade-out');
+                        
+                        text3.classList.remove('hidden');
+                        requestAnimationFrame(() => requestAnimationFrame(() => text3.classList.add('active')));
+                        
+                        // Step 4: 7s - 9s (Fade out intro screen)
+                        setTimeout(() => {
+                            text3.classList.remove('active');
+                            text3.classList.add('fade-out');
+                            
+                            splashScreen.classList.add('hidden');
+                            
+                            // Step 5: 9s (Reveal main site completely)
+                            setTimeout(() => {
+                                document.body.style.overflow = ''; 
+                                splashScreen.style.display = 'none';
+                                startPetals();
+                                window.dispatchEvent(new Event('scroll'));
+                            }, 2000);
+                            
+                        }, 3000); // 7s (3s after Step 3 start)
+                        
+                    }, 2000); // 4s (2s after Step 2 start)
+                    
+                }, 2000); // 2s
+                
+            }, 500); // Sequence offset
         });
     }
 
-    if (musicToggleBtn) {
+    if (musicToggleBtn && bgMusic) {
         musicToggleBtn.addEventListener('click', () => {
-            if (!isPlayerReady || !ytPlayer || typeof ytPlayer.playVideo !== 'function') return;
-
             if (isMusicPlaying) {
-                ytPlayer.pauseVideo();
+                bgMusic.pause();
                 isMusicPlaying = false;
                 if (musicIcon) {
                     musicIcon.classList.remove('fa-music');
                     musicIcon.classList.add('fa-volume-xmark');
                 }
             } else {
-                ytPlayer.playVideo();
+                bgMusic.play();
                 isMusicPlaying = true;
                 if (musicIcon) {
                     musicIcon.classList.remove('fa-volume-xmark');

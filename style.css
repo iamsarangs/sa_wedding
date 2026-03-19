@@ -6,16 +6,18 @@
 /* --- CSS VARIABLES --- */
 :root {
     /* Colors */
-    --color-bg-main: #FAFAF7;
-    /* Soft cream/off-white */
-    --color-bg-blush: #F7EFEA;
-    /* Extremely soft blush sand */
-    --color-text-main: #3F3A3A;
-    /* Soft charcoal */
-    --color-text-muted: #7A7270;
-    --color-gold: #B68D40;
-    /* Muted elegant gold */
-    --color-gold-light: #D4AF37;
+    --color-bg-main: #fffafc;
+    /* Soft white/blush */
+    --color-bg-blush: #fef4f7;
+    /* Slightly deeper blush for alternating sections */
+    --color-text-main: #222222;
+    /* Near black */
+    --color-text-muted: #555555;
+    /* Dark grey */
+    --color-gold: #c97b84;
+    /* Deep rose accent */
+    --color-gold-light: #df9da5;
+    /* Soft rose highlight */
     --color-white: #FFFFFF;
 
     /* Typography */
@@ -127,9 +129,9 @@ p {
     align-items: center;
     justify-content: center;
     text-align: center;
-    background-color: #Eee9e3;
-    /* Soft atmospheric gradient to simulate a luxury studio backdrop */
-    background: radial-gradient(circle at center, #F7EFEA 0%, #E8DFD8 100%);
+    background-color: var(--color-bg-main);
+    /* Soft atmospheric light gradient */
+    background: radial-gradient(circle at center, var(--color-bg-blush) 0%, var(--color-bg-main) 100%);
     overflow: hidden;
 }
 
@@ -160,7 +162,7 @@ p {
 }
 
 .hero-title {
-    font-family: var(--font-script);
+    font-family: var(--font-heading);
     font-size: 6rem;
     line-height: 1.1;
     color: var(--color-text-main);
@@ -251,7 +253,7 @@ p {
 }
 
 .heart-icon {
-    color: #e09b9b;
+    color: var(--color-gold);
     font-size: 1.2rem;
     animation: heartbeat 2s infinite ease-in-out;
 }
@@ -284,10 +286,10 @@ p {
 .event-card {
     background: var(--color-white);
     padding: 3rem 2rem;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     position: relative;
-    border: 1px solid rgba(182, 141, 64, 0.1);
+    border: 1px solid rgba(201, 123, 132, 0.15);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -298,18 +300,21 @@ p {
 
 .event-card.highlighted {
     border: 2px solid var(--color-gold);
-    box-shadow: 0 0 25px rgba(182, 141, 64, 0.4);
+    box-shadow: 0 0 35px rgba(212, 175, 55, 0.5);
+    background: linear-gradient(145deg, var(--color-white), #f9f6ef);
+    transform: scale(1.05); /* Visually dominant */
+    z-index: 2;
     animation: glow-pulse 3s infinite alternate;
 }
 
-@keyframes glow-pulse {
-    0% {
-        box-shadow: 0 0 15px rgba(182, 141, 64, 0.3);
-    }
+.event-card.highlighted:hover {
+    transform: scale(1.08) translateY(-5px);
+    box-shadow: 0 15px 50px rgba(212, 175, 55, 0.7);
+}
 
-    100% {
-        box-shadow: 0 0 35px rgba(182, 141, 64, 0.6);
-    }
+@keyframes glow-pulse {
+    0% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+    100% { box-shadow: 0 0 45px rgba(212, 175, 55, 0.8); }
 }
 
 .badge {
@@ -339,27 +344,30 @@ p {
 
 .event-date {
     font-family: var(--font-heading);
-    font-size: 1.3rem;
-    font-weight: 500;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--color-gold);
     margin-bottom: 0.25rem;
 }
 
 .event-time {
     color: var(--color-text-muted);
-    font-size: 0.95rem;
+    font-size: 1.05rem;
+    font-weight: 500;
     margin-bottom: 1.5rem;
 }
 
 .card-divider {
     border: 0;
     height: 1px;
-    background: linear-gradient(to right, transparent, rgba(182, 141, 64, 0.3), transparent);
+    background: linear-gradient(to right, transparent, rgba(201, 123, 132, 0.4), transparent);
     margin: 1.5rem 0;
 }
 
 .event-venue {
-    font-weight: 500;
-    font-size: 1.1rem;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: var(--color-text-main);
 }
 
 .btn-outline {
@@ -402,10 +410,10 @@ p {
     justify-content: center;
     width: 100px;
     height: 100px;
-    border: 1px solid rgba(182, 141, 64, 0.3);
+    border: 1px solid var(--color-gold);
     border-radius: 50%;
     background: var(--color-bg-main);
-    box-shadow: inset 0 0 15px rgba(182, 141, 64, 0.05);
+    box-shadow: 0 5px 15px rgba(201, 123, 132, 0.1);
 }
 
 .time-box span {
@@ -445,7 +453,7 @@ p {
 }
 
 .footer-title {
-    font-family: var(--font-script);
+    font-family: var(--font-heading);
     font-size: 3rem;
     color: var(--color-bg-main);
     margin-bottom: 0.5rem;
@@ -479,103 +487,190 @@ p {
 }
 
 /* =========================================
-   SPLASH SCREEN & AUDIO
+   CINEMATIC 3D SPLASH SCREEN
    ========================================= */
 #splash-screen {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
-    background-color: var(--color-bg-main);
+    background-color: #050505;
     z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    transition: opacity 1s ease-out, visibility 1s;
-    background-image: url('https://www.transparenttextures.com/patterns/dust.png'), radial-gradient(circle at center, #F7EFEA 0%, #E8DFD8 100%);
+    transition: opacity 1.5s ease;
+    overflow: hidden;
 }
 
 #splash-screen.hidden {
     opacity: 0;
-    visibility: hidden;
+    pointer-events: none;
 }
 
-.splash-content {
-    padding: 10vh 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 800px;
+.scene-3d {
+    position: relative;
     width: 100%;
     height: 100%;
-}
-
-.splash-center {
+    perspective: 1000px;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    flex-grow: 1;
 }
 
-.splash-bottom {
-    margin-top: auto;
-    padding-bottom: 2rem;
+.layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
 }
 
-.splash-names {
-    font-family: var(--font-script);
-    font-size: 6rem;
-    line-height: 1.2;
-    color: var(--color-text-main);
-    margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.03);
-    z-index: 3;
-    text-align: center;
+.scene-3d.animate-camera .bg-layer {
+    animation: drift-bg 20s linear forwards;
 }
 
-.splash-names .ampersand {
-    font-family: var(--font-heading);
-    font-style: italic;
-    color: var(--color-gold);
-    font-size: 4.5rem;
-    margin: 0 10px;
+.scene-3d.animate-camera .particles-layer {
+    animation: drift-particles 20s linear forwards;
 }
 
-.splash-text {
-    font-family: var(--font-body);
+@keyframes drift-bg {
+    0% { transform: translateZ(-500px) scale(1.5); }
+    100% { transform: translateZ(-350px) scale(1.5) translateY(30px); }
+}
+
+@keyframes drift-particles {
+    0% { transform: translateZ(-200px) scale(1.2); }
+    100% { transform: translateZ(50px) scale(1.2) translateY(-40px); }
+}
+
+.bg-layer {
+    background: radial-gradient(circle at center, #1E293B 0%, #050505 80%);
+    transform: translateZ(-500px) scale(1.5);
+}
+
+.glow-layer {
+    background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.15) 0%, transparent 60%);
+    z-index: 2;
+    transform: translateZ(-100px);
+}
+
+.content-layer {
+    z-index: 10;
+    flex-direction: column;
+}
+
+.btn-cinematic {
+    background: transparent;
+    color: var(--color-white);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     font-size: 1.1rem;
-    text-transform: uppercase;
+    padding: 15px 40px;
     letter-spacing: 4px;
-    color: var(--color-gold);
-    margin-bottom: 2rem;
-    line-height: 1.5;
-    z-index: 3;
-    text-align: center;
+    text-transform: uppercase;
+    font-family: var(--font-body);
+    transition: all 0.5s ease;
+    cursor: pointer;
 }
 
-.btn-primary-splash,
+.btn-cinematic:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--color-white);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+}
+
+.text-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+}
+
+.cinematic-text, .cinematic-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 1.5s ease, transform 6s cubic-bezier(0.2, 0.8, 0.4, 1);
+}
+
+.cinematic-text {
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    transform: translate(-50%, -50%) translateZ(-300px);
+    filter: blur(2px);
+}
+
+.cinematic-title {
+    font-family: var(--font-heading);
+    font-size: 3.5rem;
+    color: var(--color-gold);
+    transform: translate(-50%, -50%) translateZ(-300px);
+    filter: blur(2px);
+}
+
+.cinematic-text.active, .cinematic-title.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateZ(0px);
+    filter: blur(0px);
+}
+
+.cinematic-text.fade-out, .cinematic-title.fade-out {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateZ(300px);
+    transition: opacity 1.5s ease, transform 2s ease-in;
+    filter: blur(4px);
+}
+
+.heart {
+    color: #e09b9b;
+    font-size: 2rem;
+    animation: pulse 2s infinite;
+    display: inline-block;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.intro-particle {
+    position: absolute;
+    background-color: var(--color-gold);
+    border-radius: 50%;
+    opacity: 0.6;
+    box-shadow: 0 0 10px var(--color-gold);
+}
+
 .btn-primary {
     display: inline-block;
     padding: 1rem 2.5rem;
-    background-color: var(--color-gold);
-    color: var(--color-white);
+    background-color: transparent;
+    color: var(--color-gold);
     font-family: var(--font-body);
     text-transform: uppercase;
     letter-spacing: 2px;
-    border: none;
+    border: 1px solid var(--color-gold);
     border-radius: 4px;
     font-size: 0.9rem;
     cursor: pointer;
-    transition: background 0.3s, transform 0.2s;
+    transition: all 0.3s ease;
 }
 
 .btn-primary-splash:hover,
 .btn-primary:hover {
-    background-color: #a37c35;
+    background-color: var(--color-gold);
+    color: var(--color-bg-main);
     transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
 }
 
 .floating-btn {
@@ -620,11 +715,12 @@ p {
 .petal {
     position: absolute;
     top: -10%;
-    background-color: #ffd1dc;
-    border-radius: 15px 0 15px 0;
-    opacity: 0.6;
+    background-color: var(--color-gold);
+    border-radius: 50%;
+    /* Stardust spheres instead of petals */
+    opacity: 0.8;
     animation: fall linear forwards;
-    box-shadow: 0 0 5px rgba(255, 209, 220, 0.5);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
 }
 
 @keyframes fall {
@@ -670,11 +766,13 @@ p {
 .form-select {
     width: 100%;
     padding: 1rem;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    /* Subtle border */
+    border-radius: 8px;
     font-family: var(--font-body);
     font-size: 0.95rem;
-    background-color: #fafafa;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Semi-transparent white */
     color: var(--color-text-main);
     transition: border-color 0.3s;
 }
