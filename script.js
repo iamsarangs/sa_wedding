@@ -88,10 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     musicIcon.classList.add('fa-music');
                 }
                 
-                // Gradually increase volume to 0.5 over 2.5 seconds
+                // Gradually increase volume to 0.5 over 2.0 seconds
                 let vol = 0;
                 let fadeInterval = setInterval(() => {
-                    vol += 0.02;
+                    vol += 0.025;
                     if (vol >= 0.5) {
                         vol = 0.5;
                         clearInterval(fadeInterval);
@@ -112,84 +112,91 @@ document.addEventListener('DOMContentLoaded', () => {
             btnOpenInvite.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
             btnOpenInvite.style.opacity = '0';
             btnOpenInvite.style.transform = 'translateZ(100px)';
+            btnOpenInvite.style.pointerEvents = 'none';
 
-            // Wait exactly 1 second for silent black screen pause
-            setTimeout(() => {
-                btnOpenInvite.style.display = 'none';
-                
-                // --- T = 0s ---
-                // Start Audio
-                fadeInAudio();
-                
-                // Start center glow
-                const centerGlow = document.getElementById('center-glow');
-                if (centerGlow) centerGlow.classList.add('active');
+            // --- T = 0s ---
+            // Start Audio
+            fadeInAudio();
+            
+            // Start center glow
+            const centerGlow = document.getElementById('center-glow');
+            if (centerGlow) centerGlow.classList.add('active');
 
-                // Trigger Parallax Drift
-                const scene3d = document.getElementById('scene-3d');
-                if (scene3d) scene3d.classList.add('animate-camera');
+            // Trigger Parallax Drift
+            const scene3d = document.getElementById('scene-3d');
+            if (scene3d) scene3d.classList.add('animate-camera');
 
-                // Generate Intro Particles (Dust)
-                const introParticlesLayer = document.getElementById('intro-particles');
-                if (introParticlesLayer) {
-                    for(let i=0; i<40; i++) {
-                        let p = document.createElement('div');
-                        p.className = 'intro-particle';
-                        p.style.left = Math.random() * 100 + '%';
-                        p.style.top = Math.random() * 100 + '%';
-                        let size = Math.random() * 4 + 1;
-                        p.style.width = size + 'px';
-                        p.style.height = size + 'px';
-                        p.style.opacity = Math.random() * 0.4 + 0.1;
-                        introParticlesLayer.appendChild(p);
-                    }
+            // Generate Intro Particles (Dust)
+            const introParticlesLayer = document.getElementById('intro-particles');
+            if (introParticlesLayer) {
+                for(let i=0; i<40; i++) {
+                    let p = document.createElement('div');
+                    p.className = 'intro-particle';
+                    p.style.left = Math.random() * 100 + '%';
+                    p.style.top = Math.random() * 100 + '%';
+                    let size = Math.random() * 4 + 1;
+                    p.style.width = size + 'px';
+                    p.style.height = size + 'px';
+                    p.style.opacity = Math.random() * 0.4 + 0.1;
+                    introParticlesLayer.appendChild(p);
                 }
+            }
 
-                // Start petals with depth
-                startPetals();
+            // Start petals with depth
+            startPetals();
 
-                const text1 = document.getElementById('cinematic-text-1');
-                const text2 = document.getElementById('cinematic-text-2');
-                const text3 = document.getElementById('cinematic-text-3');
+            const text1 = document.getElementById('cinematic-text-1');
+            const text2 = document.getElementById('cinematic-text-2');
+            const text3 = document.getElementById('cinematic-text-3');
 
-                // Step 1: 0s - 2s (Fade in 'You are invited...')
+            setTimeout(() => {
+                // T = 1.5s
+                btnOpenInvite.style.display = 'none';
+
+                // Step 1: Show 'You are invited...'
                 text1.classList.remove('hidden');
                 requestAnimationFrame(() => requestAnimationFrame(() => text1.classList.add('active')));
                 
-                // Step 2: 2s - 4s
                 setTimeout(() => {
+                    // T = 3.5s
                     text1.classList.remove('active');
                     text1.classList.add('fade-out');
                     
+                    // Step 2: Show 'To celebrate a beautiful union'
                     text2.classList.remove('hidden');
                     requestAnimationFrame(() => requestAnimationFrame(() => text2.classList.add('active')));
                     
-                    // Step 3: 4s - 8s (Hold name reveal)
                     setTimeout(() => {
+                        // T = 5.5s
                         text2.classList.remove('active');
                         text2.classList.add('fade-out');
                         
+                        // Step 3: Show Names Reveal (2s hold, then 2s pulse glow, then dissolve)
                         text3.classList.remove('hidden');
                         requestAnimationFrame(() => requestAnimationFrame(() => text3.classList.add('active')));
                         
-                        // Step 4: 8s - 10.5s (Dissolve intro screen slowly)
                         setTimeout(() => {
+                            // T = 9.5s (4s elapsed for names)
+                            text3.classList.remove('active');
+                            text3.classList.add('fade-out');
+                            
+                            // Fade out intro screen 
                             splashScreen.classList.add('fade-out-blur');
                             
-                            // Step 5: 10.5s (Reveal main site completely)
+                            // T = 12s (Reveal main site completely)
                             setTimeout(() => {
                                 document.body.style.overflow = ''; 
                                 splashScreen.style.display = 'none';
                                 window.dispatchEvent(new Event('scroll'));
                             }, 2500);
                             
-                        }, 4000); // Wait 4s on the name reveal
+                        }, 4000); 
                         
-                    }, 2000); // 4s (2s after Step 2 start)
+                    }, 2000); 
                     
-                }, 2000); // 2s mark
+                }, 2000); 
                 
-            }, 1000); // 1s initial pause offset
+            }, 1500); // Wait 1.5s after click
         });
     }
 
