@@ -114,89 +114,82 @@ document.addEventListener('DOMContentLoaded', () => {
             btnOpenInvite.style.transform = 'translateZ(100px)';
             btnOpenInvite.style.pointerEvents = 'none';
 
-            // --- T = 0s ---
-            // Start Audio
-            fadeInAudio();
-            
-            // Start center glow
-            const centerGlow = document.getElementById('center-glow');
-            if (centerGlow) centerGlow.classList.add('active');
-
-            // Trigger Parallax Drift
-            const scene3d = document.getElementById('scene-3d');
-            if (scene3d) scene3d.classList.add('animate-camera');
-
-            // Generate Intro Particles (Dust)
-            const introParticlesLayer = document.getElementById('intro-particles');
-            if (introParticlesLayer) {
-                for(let i=0; i<40; i++) {
-                    let p = document.createElement('div');
-                    p.className = 'intro-particle';
-                    p.style.left = Math.random() * 100 + '%';
-                    p.style.top = Math.random() * 100 + '%';
-                    let size = Math.random() * 4 + 1;
-                    p.style.width = size + 'px';
-                    p.style.height = size + 'px';
-                    p.style.opacity = Math.random() * 0.4 + 0.1;
-                    introParticlesLayer.appendChild(p);
-                }
-            }
-
-            // Start petals with depth
-            startPetals();
-
-            const text1 = document.getElementById('cinematic-text-1');
-            const text2 = document.getElementById('cinematic-text-2');
-            const text3 = document.getElementById('cinematic-text-3');
-
+            // Wait 1.0s for silent black cinematic pause
             setTimeout(() => {
-                // T = 1.5s
                 btnOpenInvite.style.display = 'none';
-
-                // Step 1: Show 'You are invited...'
-                text1.classList.remove('hidden');
-                requestAnimationFrame(() => requestAnimationFrame(() => text1.classList.add('active')));
                 
+                // --- T = 1.0s ---
+                fadeInAudio();
+                
+                const centerGlow = document.getElementById('center-glow');
+                if (centerGlow) centerGlow.classList.add('active');
+
+                const scene3d = document.getElementById('scene-3d');
+                if (scene3d) scene3d.classList.add('animate-camera');
+
+                const introParticlesLayer = document.getElementById('intro-particles');
+                if (introParticlesLayer) {
+                    for(let i=0; i<40; i++) {
+                        let p = document.createElement('div');
+                        p.className = 'intro-particle';
+                        p.style.left = Math.random() * 100 + '%';
+                        p.style.top = Math.random() * 100 + '%';
+                        let size = Math.random() * 4 + 1;
+                        p.style.width = size + 'px';
+                        p.style.height = size + 'px';
+                        p.style.opacity = Math.random() * 0.4 + 0.1;
+                        introParticlesLayer.appendChild(p);
+                    }
+                }
+
+                startPetals();
+
+                const text1 = document.getElementById('cinematic-text-1');
+                const text2 = document.getElementById('cinematic-text-2');
+
+                // T = 2.5s (1.5s after T=1.0s)
                 setTimeout(() => {
-                    // T = 3.5s
-                    text1.classList.remove('active');
-                    text1.classList.add('fade-out');
+                    text1.classList.remove('hidden');
+                    requestAnimationFrame(() => requestAnimationFrame(() => text1.classList.add('active')));
                     
-                    // Step 2: Show 'To celebrate a beautiful union'
-                    text2.classList.remove('hidden');
-                    requestAnimationFrame(() => requestAnimationFrame(() => text2.classList.add('active')));
-                    
+                    // T = 4.5s (2.0s after T=2.5s)
                     setTimeout(() => {
-                        // T = 5.5s
-                        text2.classList.remove('active');
-                        text2.classList.add('fade-out');
+                        text1.classList.remove('active');
+                        text1.classList.add('fade-out');
                         
-                        // Step 3: Show Names Reveal (2s hold, then 2s pulse glow, then dissolve)
-                        text3.classList.remove('hidden');
-                        requestAnimationFrame(() => requestAnimationFrame(() => text3.classList.add('active')));
-                        
+                        // T = 5.0s (0.5s after T=4.5s)
                         setTimeout(() => {
-                            // T = 9.5s (4s elapsed for names)
-                            text3.classList.remove('active');
-                            text3.classList.add('fade-out');
+                            text2.classList.remove('hidden');
+                            requestAnimationFrame(() => requestAnimationFrame(() => text2.classList.add('active')));
                             
-                            // Fade out intro screen 
-                            splashScreen.classList.add('fade-out-blur');
-                            
-                            // T = 12s (Reveal main site completely)
+                            // T = 7.0s (2.0s after T=5.0s)
                             setTimeout(() => {
-                                document.body.style.overflow = ''; 
-                                splashScreen.style.display = 'none';
-                                window.dispatchEvent(new Event('scroll'));
-                            }, 2500);
-                            
-                        }, 4000); 
+                                text2.classList.remove('active');
+                                text2.classList.add('fade-out');
+                                
+                                // T = 10.0s (3.0s after T=7.0s) -> Dissolve Intro directly
+                                setTimeout(() => {
+                                    // Fade out intro screen seamlessly 
+                                    splashScreen.classList.add('fade-out-blur');
+                                    
+                                    // T = 12.5s (2.5s after dissolve starts: Reveal main site completely)
+                                    setTimeout(() => {
+                                        document.body.style.overflow = ''; 
+                                        splashScreen.style.display = 'none';
+                                        window.dispatchEvent(new Event('scroll'));
+                                    }, 2500);
+                                    
+                                }, 3000); 
+                                
+                            }, 2000);
+                             
+                        }, 500); 
                         
                     }, 2000); 
                     
-                }, 2000); 
+                }, 1500); 
                 
-            }, 1500); // Wait 1.5s after click
+            }, 1000); // 1.0s initial pause
         });
     }
 
