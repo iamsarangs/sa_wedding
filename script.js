@@ -152,40 +152,45 @@ document.addEventListener('DOMContentLoaded', () => {
                     text1.classList.remove('hidden');
                     requestAnimationFrame(() => requestAnimationFrame(() => text1.classList.add('active')));
                     
-                    // T = 4.5s (2.0s after T=2.5s)
+                    // T = 5.0s (2.5s after T=2.5s)
                     setTimeout(() => {
                         text1.classList.remove('active');
                         text1.classList.add('fade-out');
                         
-                        // T = 5.0s (0.5s after T=4.5s)
+                        // T = 6.0s (1.0s after T=5.0s)
                         setTimeout(() => {
                             text2.classList.remove('hidden');
                             requestAnimationFrame(() => requestAnimationFrame(() => text2.classList.add('active')));
                             
-                            // T = 7.0s (2.0s after T=5.0s)
+                            // T = 9.0s (3.0s after T=6.0s)
                             setTimeout(() => {
                                 text2.classList.remove('active');
                                 text2.classList.add('fade-out');
                                 
-                                // T = 10.0s (3.0s after T=7.0s) -> Dissolve Intro directly
+                                // T = 11.0s (2.0s after T=9.0s) -> Dissolve Intro directly
                                 setTimeout(() => {
-                                    // Fade out intro screen seamlessly 
-                                    splashScreen.classList.add('fade-out-blur');
+                                    // Unlock scroll BEFORE fade out to hide the layout shift behind the opaque layer
+                                    document.body.style.overflow = ''; 
                                     
-                                    // T = 12.5s (2.5s after dissolve starts: Reveal main site completely)
+                                    // Wait a tiny bit for the browser to recalculate layout and paint scrollbars
                                     setTimeout(() => {
-                                        document.body.style.overflow = ''; 
-                                        splashScreen.style.display = 'none';
-                                        window.dispatchEvent(new Event('scroll'));
-                                    }, 2500);
+                                        // Fade out intro screen seamlessly 
+                                        splashScreen.classList.add('fade-out-blur');
+                                        splashScreen.style.pointerEvents = 'none';
+                                        
+                                        // Remove from DOM/display after fade finishes to save CPU
+                                        setTimeout(() => {
+                                            splashScreen.style.display = 'none';
+                                        }, 2500);
+                                    }, 50);
                                     
-                                }, 3000); 
+                                }, 2000); 
                                 
-                            }, 2000);
+                            }, 3000);
                              
-                        }, 500); 
+                        }, 1000); 
                         
-                    }, 2000); 
+                    }, 2500); 
                     
                 }, 1500); 
                 

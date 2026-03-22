@@ -662,7 +662,7 @@ p {
     width: 100%;
     text-align: center;
     opacity: 0;
-    transition: opacity 1.5s ease, transform 6s cubic-bezier(0.2, 0.8, 0.4, 1);
+    transition: opacity 2s ease, transform 6s cubic-bezier(0.2, 0.8, 0.4, 1);
 }
 
 .cinematic-title {
@@ -734,7 +734,7 @@ p {
 .cinematic-text.fade-out {
     opacity: 0;
     transform: translate(-50%, -50%) translateZ(300px);
-    transition: opacity 1.5s ease, transform 2s ease-in;
+    transition: opacity 2s ease, transform 2.5s ease-in;
     filter: blur(4px);
 }
 
